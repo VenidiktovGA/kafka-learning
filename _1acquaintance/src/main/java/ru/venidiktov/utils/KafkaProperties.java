@@ -1,14 +1,13 @@
 package ru.venidiktov.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Properties;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.PathResource;
 import org.springframework.util.ResourceUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Properties;
 
 /**
  * Загружаем yml файл и из него достаем нужные свойства!

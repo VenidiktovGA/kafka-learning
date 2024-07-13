@@ -1,13 +1,12 @@
-package ru.venidiktov.producer;
-
-import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import ru.venidiktov.utils.Util;
+package ru.venidiktov.consumer;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Scanner;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import ru.venidiktov.utils.Util;
 
 /**
  * Consumer в момент запуска запрашивает топики из которых ему читать и его группу

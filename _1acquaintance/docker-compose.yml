@@ -1,4 +1,6 @@
 version: '3.8'
+name: acquaintance-kafka
+
 services:
   zookeeper: # zookeeper - это распределенная БД в которой kafka хранит свои настройки с служебную информацию, от zookeeper постепенно уходят
     image: confluentinc/cp-zookeeper:7.6.0

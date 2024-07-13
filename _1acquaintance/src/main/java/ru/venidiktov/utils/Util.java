@@ -1,14 +1,13 @@
 package ru.venidiktov.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
 
 @Slf4j
 public class Util {

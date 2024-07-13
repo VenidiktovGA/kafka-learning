@@ -1,11 +1,10 @@
 package ru.venidiktov.producer;
 
+import java.util.Scanner;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import ru.venidiktov.utils.Util;
-
-import java.util.Scanner;
 
 /**
  * Producer через который можно в реальном времени в разные топики отправлять разное количество сообщений с разным ключом

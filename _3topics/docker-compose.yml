@@ -1,0 +1,93 @@
+version: '3.8'
+name: kafka-topic
+
+services:
+  zookeeper: # zookeeper - это распределенная БД в которой kafka хранит свои настройки и служебную информацию, от zookeeper постепенно уходят
+    image: confluentinc/cp-zookeeper:7.6.1
+    container_name: zookeeper
+    healthcheck:
+      test: "[[ $$(echo srvr | nc localhost 2181 | grep -oG 'Mode: standalone') = \"Mode: standalone\" ]]"
+      interval: 10s
+      timeout: 1s
+      retries: 30
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "22181:2181"
+
+  kafka-1: # Брокер kafka
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: kafka-broker-1
+    depends_on: # сервис kafka стартует после сервиса zookeeper
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: "test $$( /usr/bin/zookeeper-shell zookeeper:2181 get /brokers/ids/1 | grep { ) != ''"
+      interval: 3s
+      timeout: 2s
+      retries: 300
+    environment:
+      KAFKA_BROKER_ID: 1 # При запуске нескольких брокеров в кластере у каждого их них должен быть свой id
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:29091
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3 # Данные о смещениях будут реплицироваться на 3 брокера (Тем самым мы повысим отказоустойчивость)
+    ports:
+      - "29091:29091"
+
+  kafka-2: # Брокер kafka
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: kafka-broker-2
+    depends_on: # сервис kafka стартует после сервиса zookeeper
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: "test $$( /usr/bin/zookeeper-shell zookeeper:2181 get /brokers/ids/1 | grep { ) != ''"
+      interval: 3s
+      timeout: 2s
+      retries: 300
+    environment:
+      KAFKA_BROKER_ID: 2 # При запуске нескольких брокеров в кластере у каждого их них должен быть свой id
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3 # Данные о смещениях будут реплицироваться на 3 брокера (Тем самым мы повысим отказоустойчивость)
+    ports:
+      - "29092:29092"
+
+  kafka-3: # Брокер kafka
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: kafka-broker-3
+    depends_on: # сервис kafka стартует после сервиса zookeeper
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: "test $$( /usr/bin/zookeeper-shell zookeeper:2181 get /brokers/ids/1 | grep { ) != ''"
+      interval: 3s
+      timeout: 2s
+      retries: 300
+    environment:
+      KAFKA_BROKER_ID: 3 # При запуске нескольких брокеров в кластере у каждого их них должен быть свой id
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-3:29093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3 # Данные о смещениях будут реплицироваться на 3 брокера (Тем самым мы повысим отказоустойчивость)
+    ports:
+      - "29093:29093"
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "8090:8080"
+    restart: always
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-1:29091,kafka-2:29092,kafka-3:29093
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    links:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+      - zookeeper

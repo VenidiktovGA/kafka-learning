@@ -7,10 +7,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>lesson-1</artifactId>
+    <artifactId>_2clusterSettings</artifactId>
     <packaging>jar</packaging>
 
-    <name>lesson-1</name>
+    <name>lesson-2</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -18,11 +18,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>3.7.0</version>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

@@ -14,11 +14,13 @@
     <artifactId>kafka-learning</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>kafka-lerning</name>
+    <name>kafka-learning</name>
     <description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>lesson-1</module>
+        <module>_1acquaintance</module>
+        <module>_2clusterSettings</module>
+        <module>_3topics</module>
     </modules>
 
     <properties>
